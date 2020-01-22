@@ -2,23 +2,27 @@ package model;
 
 public class Staff {
 
-	String staffId;
-	String staffName;
-	String staffPin;
+	private String staffID;
+	private String staffName;
+	private String staffPin;
 
-	public Staff(String staffId, String staffName, String staffPin) {
+	public Staff() {
 		super();
-		this.staffId = staffId;
+	}
+
+	public Staff(String staffID, String staffName, String staffPin) {
+		super();
+		this.staffID = staffID;
 		this.staffName = staffName;
 		this.staffPin = staffPin;
 	}
 
-	public String getStaffId() {
-		return staffId;
+	public String getstaffID() {
+		return staffID;
 	}
 
-	public void setStaffId(String staffId) {
-		this.staffId = staffId;
+	public void setstaffID(String staffID) {
+		this.staffID = staffID;
 	}
 
 	public String getStaffName() {

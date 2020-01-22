@@ -1,21 +1,25 @@
 package model;
 
 public class Job {
-	String jobId;
-	String jobName;
+	private String jobID;
+	private String jobName;
 
-	public Job(String jobId, String jobName) {
+	public Job() {
 		super();
-		this.jobId = jobId;
+	}
+
+	public Job(String jobID, String jobName) {
+		super();
+		this.jobID = jobID;
 		this.jobName = jobName;
 	}
 
-	public String getJobId() {
-		return jobId;
+	public String getjobID() {
+		return jobID;
 	}
 
-	public void setJobId(String jobId) {
-		this.jobId = jobId;
+	public void setjobID(String jobID) {
+		this.jobID = jobID;
 	}
 
 	public String getJobName() {
