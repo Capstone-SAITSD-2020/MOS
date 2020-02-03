@@ -1,7 +1,7 @@
 /**
  * 
  */
-package borkers;
+package brokers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,14 +16,14 @@ import server.*;
  * @author 730693
  *
  */
-public class StaffBorker {
+public class StaffBroker {
 	StmtsMySQL stmts ; 
 	Connect2Server c2s;
 	Connection con = null;
 	Job job;
 	PreparedStatement preparedStmt = null;
 	ResultSet rs = null;
-	public StaffBorker() {
+	public StaffBroker() {
 		
 	}
 	
