@@ -2,16 +2,33 @@
  * 
  */
 package server;
+import java.sql.Array;
+import java.sql.Blob;
+import java.sql.CallableStatement;
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.NClob;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLClientInfoException;
+import java.sql.SQLException;
+import java.sql.SQLWarning;
+import java.sql.SQLXML;
+import java.sql.Savepoint;
+import java.sql.Statement;
+import java.sql.Struct;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.Executor;
+
 import com.mysql.cj.jdbc.DatabaseMetaData;
 
 /**
  * @author 730693
  *
  */
-public class Connect2Server {
+public class Connect2Server{
 	//attributes
 	static Connection con = null;
 	private final static String URL = "jdbc:mysql://harbor.cc7dvrrj6n2j.ca-central-1.rds.amazonaws.com:3306/";
@@ -22,7 +39,12 @@ public class Connect2Server {
 	private static String driver = "com.mysql.cj.jdbc.Driver";
 	//for mysql 5.0
 	//com.mysql.jdbc.Driver
-	public static Connection Connect(){
+	
+	public  Connect2Server(){
+		
+	}
+	
+	public Connection connect() {
 		try {
 			Class.forName(driver);
 			con = DriverManager.getConnection(URL + DBNAME, USERNAME, PW);
@@ -51,6 +73,9 @@ public class Connect2Server {
 		}
 		return con;
 	}
+
+	
+	
 	// [2020.01.21] for testing
 	/*
 	public static void main(String[] args) {
