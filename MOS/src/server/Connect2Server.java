@@ -66,11 +66,12 @@ public class Connect2Server{
 		      System.out.println(count + " Rows in set ");
 		      
 			}
+			
 			*/
-		
 		}catch(Exception e) {
 			System.out.println(e);			
 		}
+	
 		return con;
 	}
 
@@ -79,7 +80,7 @@ public class Connect2Server{
 	// [2020.01.21] for testing
 	/*
 	public static void main(String[] args) {
-		Connect();		
+		connect();		
 
 	}
 	*/
