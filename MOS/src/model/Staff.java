@@ -2,7 +2,7 @@
 
 public class Staff {
 
-	private String sID;
+	private int sID;
 	private String pin;
 	private String isActive;
 	private String lName;
@@ -15,7 +15,7 @@ public class Staff {
 		super();
 	}
 
-	public Staff(String sID, String pin, String isActive, String lName, String fName,  String jobID, String contactNum) {
+	public Staff(int sID, String pin, String isActive, String fName, String lName,  String jobID, String contactNum) {
 		super();
 		this.sID = sID;
 		this.pin = pin;
@@ -26,11 +26,11 @@ public class Staff {
 		this.contactNum = contactNum;
 	}
 
-	public String getsID() {
+	public int getsID() {
 		return sID;
 	}
 
-	public void setsID(String sID) {
+	public void setsID(int sID) {
 		this.sID = sID;
 	}
 
