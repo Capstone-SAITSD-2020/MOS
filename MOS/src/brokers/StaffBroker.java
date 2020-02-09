@@ -30,7 +30,6 @@ public class StaffBroker<E> {
 	Job job;
 	PreparedStatement preparedStmt = null;
 	ResultSet rs = null;
-	boolean executedResult = false;
 	String stmtString="";
 	/**
 	 * insert
@@ -42,17 +41,20 @@ public class StaffBroker<E> {
 	public boolean insert(Job job) throws SQLException{		
 			//connect;			
 		con = c2s.connect();
+		int executedResult = -1;
 		if(con != null) {
 			try {			
 					// MYSQL insert statement
+				
 					stmtString = " insert into job (jobID, jobName)"
-							+ " values (?, ?)";
-					//create MySQL insert preparedstatement
+							+ " VALUES (?, ?)";
 					preparedStmt = con.prepareStatement(stmtString);
+					//create MySQL insert preparedstatement
 					preparedStmt.setInt(1, job.getjobID());
 					preparedStmt.setString (2, job.getJobName());
 			      // execute the preparedstatement			     
-					executedResult = preparedStmt.execute();	     
+
+					executedResult = preparedStmt.executeUpdate();	     
 			} catch (SQLException e) {
 				con.close();
 				System.out.println("Insert data is wrong. Caused reason: duplication id or data.");
@@ -63,7 +65,11 @@ public class StaffBroker<E> {
 		}
 		preparedStmt.close();
 		con.close();
-		return executedResult;	
+		if(executedResult > 0) {
+			System.out.println("insert success.");
+			return true;
+		}
+		return false;	
 	}
 	
 	/**
@@ -75,26 +81,26 @@ public class StaffBroker<E> {
 	
 	public boolean insert(Staff staff) throws SQLException {
 		//connect;
-		boolean result = false;
+		int executedResult = -1;
 		con = c2s.connect();
 		if(con != null) {
-			try {			
-					// MYSQL insert statement
-					stmtString = " insert into staff (sID, pin, isActive, fName, lName, contactNum, jobID)"
-							+ " values (?, ?, ?, ?, ?, ?,?)";
-					//create MySQL insert preparedstatement
-					preparedStmt = con.prepareStatement(stmtString);
-					preparedStmt.setInt(1, staff.getsID());
-					preparedStmt.setString (2, staff.getPin());
-					preparedStmt.setString (3, staff.getIsActive());	
-					preparedStmt.setString (4, staff.getfName());
-					preparedStmt.setString (5, staff.getlName());
-					preparedStmt.setString (6, staff.getContactNum());
-					preparedStmt.setString (7, staff.getJobID());
-		
-			      // execute the preparedstatement
+			try {						
+				staff.toString();
+				// MYSQL insert statement
+				stmtString = "INSERT INTO staff (sID, pin, isActive, fName, lName, contactNum, jobID) "
+						+ " VALUES (?, ?, ?, ?, ?, ?,?)";
+				//create MySQL insert preparedstatement
+				preparedStmt = con.prepareStatement(stmtString);
+				preparedStmt.setInt(1, staff.getsID());
+				preparedStmt.setString (2, staff.getPin());
+				preparedStmt.setString (3, staff.getIsActive());	
+				preparedStmt.setString (4, staff.getfName());
+				preparedStmt.setString (5, staff.getlName());
+				preparedStmt.setString (6, staff.getContactNum());
+				preparedStmt.setInt (7, staff.getJobID());
+		      // execute the preparedstatement
 			     
-					result = preparedStmt.execute();	     
+				executedResult = preparedStmt.executeUpdate();	     
 			} catch (SQLException e) {
 				con.close();
 				// TODO Auto-generated catch block
@@ -105,7 +111,11 @@ public class StaffBroker<E> {
 		}
 		preparedStmt.close();
 		con.close();
-		return result;		
+		if(executedResult > 0) {
+			System.out.println("insert success.");
+			return true;
+		}
+		return false;		
 	}	
 	
 	/**
@@ -151,18 +161,24 @@ public class StaffBroker<E> {
 	public List<E> findByIDList(String tableName, int id) throws SQLException {
 		//connect
 		con = c2s.connect();	
-		if(con != null) {			
-			ArrayList<Staff> resultArrayList = new ArrayList<Staff> (); 
-			stmtString = "select count(*) from staff where sID = " + id;	
+		if(con != null) {	 
+			if(tableName.equals("job")) {
+				stmtString = "select * from job where jobID = " + id;
+			}else if(tableName.equals("staff")) {
+				stmtString = "select * from staff where sID = " + id;
+			}
 			preparedStmt = con.prepareStatement(stmtString);
-			rs = preparedStmt.executeQuery(stmtString);	
+			rs = preparedStmt.executeQuery();	
 		}else {
 			System.out.println("Connecting server fail.");
 		}
+		System.out.println("[findByIDList] get data from DB success.");
+		System.out.println("result:" + rs.toString());
+		List<E> listResultList = (List<E>) listing(tableName, rs);
 		preparedStmt.close();
 		rs.close();
-		con.close();		
-		return  (List<E>) listing(tableName, rs);
+		con.close();
+		return listResultList;
 		
 	}
 	
@@ -233,92 +249,88 @@ public class StaffBroker<E> {
 		/**
 		 * update
 		 * 	update staff data
-		 * @param staff Staff object, staff ID, sID cannot be empty and changed
+		 * @param staff Staff object, staff ID, sID cannot be empty and changed. the jobID must to existing in the Job table.
 		 * @return boolean update 
 		 * @throws SQLException
 		 */
-		public Staff update(Staff staff) throws SQLException{
-			Staff updatedStaff = null;
-			//connect
-			con = c2s.connect();
-			if(con != null) {
-				if(isExisitng("staff", staff.getsID())) {
-					try {			
-						// MYSQL insert statement
-						stmtString = " update staff "
-								+ "set (pin = ?, isActive = ?, fName =?, lName =?, contactNum = ?, jobID= ?)"
-								+ "where sID =" +staff.getsID();
-						//create MySQL insert preparedstatement
-						preparedStmt = con.prepareStatement(stmtString);
-						preparedStmt.setString (1, staff.getPin());
-						preparedStmt.setString (2, staff.getIsActive());	
-						preparedStmt.setString (3, staff.getfName());
-						preparedStmt.setString (4, staff.getlName());
-						preparedStmt.setString (5, staff.getContactNum());
-						preparedStmt.setString (6, staff.getJobID());
-			
-				      // execute the preparedstatement
-				     
-						if(preparedStmt.execute()) {
-							updatedStaff = (Staff) findByIDList("staff", staff.getsID()).get(0);
-						}	     
+		public boolean update(Staff staff) throws SQLException{
+			int result = -1;
+			System.out.println("[Staff]"+staff.toString());			
+			if(isExisitng("staff", staff.getsID())) {
+				try {		
+					con = c2s.connect();
+					// MYSQL insert statement
+					stmtString = "update staff "
+							+ "set pin = ?, isActive = ?, fName =?, lName =?, contactNum = ?, jobID= ?"
+							+ " where sID = ?";
+					//create MySQL insert preparedstatement
+					preparedStmt = con.prepareStatement(stmtString);
+					preparedStmt.setString (1, staff.getPin());
+					preparedStmt.setString (2, staff.getIsActive());	
+					preparedStmt.setString (3, staff.getfName());
+					preparedStmt.setString (4, staff.getlName());
+					preparedStmt.setString (5, staff.getContactNum());
+					preparedStmt.setInt (6, staff.getJobID());
+					preparedStmt.setInt(7, staff.getsID());
+					
+			      // execute the preparedstatement
+					result = preparedStmt.executeUpdate();     
 				} catch (SQLException e) {
 					con.close();
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				}else {
-					System.out.println("Staff ID not existing.");
-				}
 			}else {
-				System.out.println("connectting to database fail.");
+				System.out.println("Staff ID not existing.");
 			}
 			con.close();
 			preparedStmt.close();
-			return updatedStaff;			
+			if(result > 0) {
+				System.out.println("[Job_update] update success. ");
+				return true;
+			}else {
+				return false;
+			}
 		}
 		
 
 		/**
 		 * update
 		 * 	update staff data
-		 * @param staff Staff object, staff ID, sID cannot be empty and changed
+		 * @param staff Staff object, staff ID, sID cannot be empty and changed 
 		 * @return boolean update 
 		 * @throws SQLException
 		 */
-		public Job update(Job job) throws SQLException{
-			Job updatedJob = null;
+		public boolean update(Job job) throws SQLException{
+			int result  = -1;
 			//connect
-			con = c2s.connect();
-			if(con != null) {
-				if(isExisitng("Job", job.getjobID())) {
-					try {			
-						// MYSQL insert statement
-						String stmt = " update job "
-								+ "set (jobName = ?)"
-								+ "where jobID =" +job.getjobID();
-						//create MySQL insert preparedstatement
-						preparedStmt = con.prepareStatement(stmt);
-						preparedStmt.setString (1, job.getJobName());					
-			 	       // execute the preparedstatement
-				     
-						if(preparedStmt.execute()) {
-							updatedJob = (Job) findByIDList("job", job.getjobID()).get(0);
-						}	     
+			if(isExisitng("Job", job.getjobID())) {
+				try {			
+					con = c2s.connect();
+					// MYSQL insert statement
+					String stmt = " update job "
+							+ "set jobName = ? where jobID = ?";
+					//create MySQL insert preparedstatement
+					preparedStmt = con.prepareStatement(stmt);					
+					preparedStmt.setString(1, job.getJobName());
+					preparedStmt.setInt(2, job.getjobID());
+		 	       // execute the preparedstatement
+					result = preparedStmt.executeUpdate();						
 				} catch (SQLException e) {
-					con.close();
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				}else {
-					System.out.println("Staff ID not existing.");
-				}
 			}else {
-				System.out.println("connectting to database fail.");
+				System.out.println("job ID does not existing, or you cannot change the job ID");
 			}
 			con.close();
 			preparedStmt.close();
-			return updatedJob;
+			if(result > 0) {
+				System.out.println("[Job_update] update success. ");
+				return true;
+			}else {
+				return false;
+			}
 			
 		}	
 		
@@ -331,16 +343,16 @@ public class StaffBroker<E> {
 	 */
 	public List<E> listing(String tableName, ResultSet rs) throws SQLException {
 		if(rs != null) {
-			if(tableName =="job") {
+			if(tableName.equals("job")) {
 				List<Job> jobs = new ArrayList<Job>();
 				while(rs.next()) {
 					Job job = new Job();
 					job.setjobID(rs.getInt("jobID"));
 					job.setJobName(rs.getString("jobName"));
-				}
-				
+					jobs.add(job);
+				}				
 				return (List<E>) jobs;
-			}else {
+			}else if(tableName.equals("staff")) {
 				List<Staff> staffs = new ArrayList<Staff>();
 				while(rs.next()) {
 					Staff staff = new Staff();
@@ -349,7 +361,7 @@ public class StaffBroker<E> {
 					staff.setlName(rs.getString("lName"));
 					staff.setPin(rs.getString("pin"));
 					staff.setContactNum(rs.getString("contactNum"));
-					staff.setJobID(rs.getString("jobID"));
+					staff.setJobID(rs.getInt("jobID"));
 					staff.setIsActive(rs.getString("isActive"));
 					staffs.add(staff);
 				}
@@ -378,25 +390,26 @@ public class StaffBroker<E> {
 			rs.next();
 			qty = rs.getInt("count(*)");
 		}
-		System.out.println("total number of data in "+tableName + " is "+ qty);
+		//System.out.println("total number of data in "+tableName + " is "+ qty);
 		rs.close();
 		preparedStmt.close();
 		con.close();
 		return qty;
 	}
 	
-	public boolean deleteAll(String tableName) throws SQLException {
+	public int deleteAll(String tableName) throws SQLException {
 		//connect
 		con = c2s.connect();
-		boolean executedResult = false;
-		System.out.println("cleaning data.....");
-		if(con != null) {
-			stmtString ="delete from "+ tableName;
-			preparedStmt = con.prepareStatement(stmtString);
-			executedResult = preparedStmt.execute(stmtString);
-		}
+		int executedResult = -1;		
+		if(con != null) {			
+	           // System.out.println("cleaning data....."+ tableName);
+	            stmtString = "delete from " + tableName ;
+				preparedStmt = con.prepareStatement(stmtString);
+				executedResult = preparedStmt.executeUpdate();				
+		}		
 		preparedStmt.close();
 		con.close();
+		System.out.println("delete reuslt: " + executedResult );		
 		return executedResult;
 	}
 		
