@@ -119,7 +119,7 @@ class StaffBrokerTest<E> {
 	void testDeleteStaff() throws SQLException {
 		assertEquals(sb.insert(job_2), true);
 		assertEquals(sb.insert(staff_2), true);
-		sb.delete(staff_2);
+		sb.delete("staff", staff_2.getsID());
 		assertEquals(sb.dataQty("job"), 1);
 		assertEquals(sb.dataQty("staff"), 0);
 		assertEquals(sb.insert(job_3), true);
