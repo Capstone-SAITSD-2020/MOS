@@ -166,6 +166,9 @@ public class StaffBroker<E> {
 				stmtString = "select * from job where jobID = " + id;
 			}else if(tableName.equals("staff")) {
 				stmtString = "select * from staff where sID = " + id;
+			}else {
+				System.out.println("Table name cannot be null, or the table name is not existing");
+				return null;
 			}
 			preparedStmt = con.prepareStatement(stmtString);
 			rs = preparedStmt.executeQuery();	
@@ -216,13 +219,13 @@ public class StaffBroker<E> {
 		return false;
 	}
 	
-	/**
+	/** common out.
 	 * delete
 	 * 	delete data by Staff object.
 	 * @param staff Staff object, the staffID cannot be null(mandatory).
 	 * @return boolean true, the data has been deleted. False, deleting fail.
 	 * @throws SQLException
-	 */
+	
 		public boolean delete(Staff staff) throws SQLException  {
 			if(isExisitng("staff", staff.getsID())) {		
 				//connect
@@ -245,7 +248,7 @@ public class StaffBroker<E> {
 			return false;
 		}
 	
-		
+		 */
 		/**
 		 * update
 		 * 	update staff data
@@ -371,6 +374,42 @@ public class StaffBroker<E> {
 		return null;
 
 	}	
+	/**findAll
+	 * 
+	 * @param tableName database name, cannot be null or empty
+	 * @return List containing the object
+	 * @throws SQLException
+	 */
+	
+		public List<E> findAll(String tableName) throws SQLException {
+			//connect
+			con = c2s.connect();	
+			if(con != null) {	 
+				if(tableName.equals("job")) {
+					stmtString = "select * from job ";
+				}else if(tableName.equals("staff")) {
+					stmtString = "select * from staff";
+				}else {
+					System.out.println("Table name cannot be null, or the table name is not existing");
+					return null;
+				}
+				preparedStmt = con.prepareStatement(stmtString);
+				rs = preparedStmt.executeQuery();	
+			}else {
+				System.out.println("Connecting server fail.");
+			}
+			System.out.println("[findAll] get data from DB success.");
+			System.out.println("[findAll] get Qty of Db: " + dataQty(tableName));
+			System.out.println("result:" + rs.toString());
+			List<E> listResultList = (List<E>) listing(tableName, rs);
+			preparedStmt.close();
+			rs.close();
+			con.close();
+			return listResultList;
+			
+		}
+	
+	
 	/**
 	 * dataQty 
 	 * 	total number of database
@@ -396,7 +435,12 @@ public class StaffBroker<E> {
 		con.close();
 		return qty;
 	}
-	
+	/**
+	 * deleteAll
+	 * @param tableName String tableName
+	 * @return executedResult int the number of DB has been deleted  
+	 * @throws SQLException
+	 */
 	public int deleteAll(String tableName) throws SQLException {
 		//connect
 		con = c2s.connect();
