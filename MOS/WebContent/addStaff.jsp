@@ -96,7 +96,7 @@
                         </form>
                     </div>
                     <div class="list-group-item">
-                        <form class="form-group">
+                        <form class="form-group" >
                             <label>Gender</label>
                             <select class="form-control">
                                 <option selected>Male</option>

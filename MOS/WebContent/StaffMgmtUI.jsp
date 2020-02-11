@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html>
 <head>
+<script type="text/javascript" src="StaffManagementScript.js"></script>
 <meta charset="UTF-8">
     <meta name="viewport" content="width-device-width, initial-scale-1, shrink-to-fit-no">
 <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -72,41 +74,28 @@
             
             <div class="col-md-9">
                 <div class="list-group">
-                    <a href="#" class="list-group-item active">Current Staff</a>
+                
+                    <a href="" class="list-group-item active">Current Staff</a>
                     <div class="list-group-item">
                         <div class="list-group">
-                            <table class="table">
+                            <table class="table" id="staffTable">
                                 <tbody>
+                                
+                                <!-- Changed some of the table headings and the table data for testing -->
                                 <tr>
-                                    <th class="mobile" style="width: 100px; text-align: center">번호</th>
-                                    <th>ID</th>
-                                    <th class="mobile" style="width: 130px; text-align: center">작성자</th>
-                                    <th class="mobile" style="width: 150px; text-align: center">작성일</th>
+                                    <th class="mobile" style="width: 100px; text-align: center" >ID</th>
+                                    <td class="mobile" style="width: 100px; text-align: center" >First Name</td>
+                                    <th class="mobile" style="width: 130px; text-align: center" >��Last Name</th>
+                                    <th class="mobile" style="width: 150px; text-align: center" >Contact Number</th>
                                 </tr>
                                 <tr>
-                                    <td class="mobile" style="text-align: center">4</td>
-                                    <td>Steven</td>
-                                    <td class="mobile" style="text-align: center">스티븐</td>
-                                    <td class="mobile" style="text-align: center">2019-05-27</td>
+                                    <td class="mobile" style="width: 100px; text-align: center" id="id"></td>
+                                    <td class="mobile" style="width: 100px; text-align: center" id="fname"></td>
+                                    <td class="mobile" style="width: 130px; text-align: center" id="lname"></td>
+                                    <td class="mobile" style="width: 150px; text-align: center" id="contactnumber"></td>
                                 </tr>
-                                <tr>
-                                    <td class="mobile" style="text-align: center">3</td>
-                                    <td>gildong12345</td>
-                                    <td class="mobile" style="text-align: center">홍길동</td>
-                                    <td class="mobile" style="text-align: center">2019-05-26</td>
-                                </tr>
-                                <tr>
-                                    <td class="mobile" style="text-align: center">2</td>
-                                    <td>davidkim</td>
-                                    <td class="mobile" style="text-align: center">데이빗</td>
-                                    <td class="mobile" style="text-align: center">2019-05-11</td>
-                                </tr>
-                                <tr>
-                                    <td class="mobile" style="text-align: center">1</td>
-                                    <td>nathanIT</td>
-                                    <td class="mobile" style="text-align: center">네이슨</td>
-                                    <td class="mobile" style="text-align: center">2019-05-01</td>
-                                </tr>
+                               
+                               
                                 </tbody>
 
                             </table>
