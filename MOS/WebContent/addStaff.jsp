@@ -4,33 +4,31 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/custom.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <title>Migarock Management</title>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-success">
-    <a class="navbar-brand" href="index.html">Migarock Management System</a>
-    
+    <a class="navbar-brand" href="DashboardUI.jsp">Migarock Management System</a>
+    <!--Allows NAV bar to adapt to any size screen-->
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbar" aria-controls="navbar" aria-expanded="false">
-        
+        <!--Icon in case of small screen-->
         <span class="navbar-toggler-icon"></span>
     </button>
-    
+    <!--Top Navigation Bar-->
     <div class="collapse navbar-collapse justify-content-between" id="navbar">
         <div class="navbar-nav">
-            <a class="nav-item nav-link " href="homeUI.jsp">Dashboard</a>
-            <a class="nav-item nav-link " href="menuUI.jsp">Menu</a>
-            <a class="nav-item nav-link " href="staffUI.jsp">Staff</a>
-            <a class="nav-item nav-link " href="dataBaseUI.jsp">Backup/ Restore</a>
+            <a class="nav-item nav-link " href="DashboardUI.jsp">Dashboard</a>
+            <a class="nav-item nav-link " href="MenuMgmtUI.jsp">Menu</a>
+            <a class="nav-item nav-link active" href="StaffMgmtUI.jsp">Staff</a>
+            <a class="nav-item nav-link " href="DataBaseUI.jsp">Backup/ Restore</a>
         </div>
         
     </div>
 </nav>
-
+<!--Dark grey Large Header-->
 <header id="header">
     <div class="container p-3 bg-dark text-white">
         <div class="row">
@@ -39,103 +37,58 @@
                     
                 </h4>
             </div>
-            <div class="col-sm-3 info">
-                <div class="btn-group float-right">
-                    <button type="button" class="btn btn-primary dropdown-toggle"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                    >Options
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="StaffMgmtUI.jsp">Staff Summary</a>
-                        <a class="dropdwon-item active" href="addStaff.jsp">Add Staff</a><br>
-           				<a class="dropdwon-item  " href="removeStaff.jsp">Remove Staff</a><br>
-                    </div>
-                </div>
-
-            </div>
-
         </div>
 
     </div>
 
 </header>
-
+<!--Light grey header-->
 <div class="container">
     <ol class="breadcrumb">
         <li class="active">Add a new Staff Member</li>
-
     </ol>
 </div>
-
+<!--The form to be filled out for adding a new staff to the DB-->
+<!--All fields are required to be filled in, PIN is like the password to access the staff side of the application-->
+<!--PINs must be unique, add JS to check with DB is PIN is used or not-->
 <section id="main">
     <div class="container">
         <div class="row">
-            
+            <div class="col-md-3">
+                <div class="list-group">
+                    <a href="StaffMgmtUI.jsp" class="list-group-item ">Staff Summary</a>
+                    <a href="AddStaffUI.jsp" class="list-group-item active">Add New Staff</a>
+                </div>   
+            </div>
             <div class="col-md-9">
                 <div class="list-group">
                     <a href="#" class="list-group-item active">Input Staff Information</a>
+                    
                     <div class="list-group-item">
                         <form class="form-group">
-                            <label>ID</label>
-                            <input class="form-control" type="text">
-
-                        </form>
-                    </div>
-                    <div class="list-group-item">
-                        <form class="form-group">
-                            <label>Password</label>
-                            <input class="form-control" type="text" name="pin">
-
-                        </form>
-                    </div>
-                    <div class="list-group-item">
-                        <form class="form-group">
-                            <label>Password-Confirm</label>
-                            <input class="form-control" type="text">
-
-                        </form>
-                    </div>
-                    <div class="list-group-item">
-                        <form class="form-group">
-                            <label>Gender</label>
+                        <label>Job Title</label>
                             <select class="form-control">
-                                <option selected>Male</option>
-                                <option>Female</option>
-                            </select>
-
-                        </form>
-                    </div>
-                    <div class="list-group-item">
-                        <form class="form-group">
+                                <option selected>Manager</option>
+                                <option>PT Server</option>
+                                <option>FT Server</option>
+                            </select><br>
+                            <label>First Name</label>
+                            <input class="form-control" type="text"><br>
+							<label>Last Name</label>
+                            <input class="form-control" type="text"><br>
+                            <label>PIN</label>
+                            <input class="form-control" type="text"><br>
+                            <label>Confirm PIN</label>
+                            <input class="form-control" type="text"><br>
                             <label>Phone</label>
-                            <input class="form-control" type="tel" value="1-(555)-555-5555" id="example-tel-input">
+                            <input class="form-control" type="tel" value="4038675309" id="example-tel-input"><br>
+                            
+                        <button type="reset" class="btn btn-secondary">Clear</button>
+        			    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add</button> 
+                    
+                        </form>
+                    </div>
 
-                        </form>
-                    </div>
-                    <div class="list-group-item">
-                        <form class="form-group">
-                            <label>Email</label>
-                            <input class="form-control" type="email">
-
-                        </form>
-                    </div>
-                    <div class="list-group-item">
-                        <form class="form-row">
-                            <div class="form-group col-md-7">
-                                <label>Address</label>
-                                <input class="form-control" type="text">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>City</label>
-                                <input class="form-control" type="text">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label>Province</label>
-                                <input class="form-control" type="text">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
-                    </div>
                 </div>
             </div>
 
@@ -143,18 +96,53 @@
 
     </div>
 </section>
+<!--Popup for successful addition to staff table, maybe display name and job title in this popup to make it clear-->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        
+        <h4 class="modal-title" id="myModalLabel">Success!</h4>
+      </div>
+      <div class="modal-body">
+        {Added Staff info} has been added!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Popup for failure message, could pass through a few error messages to make this reactive and more clear on issue-->
+<div class="modal fade" id="failModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        
+        <h4 class="modal-title" id="myModalLabel">Whoops!</h4>
+      </div>
+      <div class="modal-body">
+        {Error} something has gone wrong!<br>
+        Please try again!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <footer class="bg-dark mt-4 p-5 text-center" style="color: #ffffff;">
     Copyright &copy; 2020 Best Capstone Group
 </footer>
 
 
-<!--제이쿼리 자바스크립트 추가하기-->
+<!-- Scripts -->
 <script src="js/jquery.min.js"></script>
-<!--popper 자바스크립트 추가하기-->
+
 <script src="js/popper.min.js"></script>
-<!--부트스트랩 자바스크립트 추가하기-->
+
 <script src="js/bootstrap.min.js"></script>
-<!--MDB 자바스크립트 추가하기 (맨 밑에 있어야 함)-->
+
 <script src="js/mdb.min.js"></script>
 
 </body>
