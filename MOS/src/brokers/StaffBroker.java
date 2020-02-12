@@ -24,7 +24,7 @@ import sun.security.action.GetIntegerAction;
  *  Including job database and staff database
  *
  */
-public class StaffBroker<E> {
+public class StaffBroker {
 	Connect2Server c2s = new Connect2Server();
 	Connection con = null;
 	Job job;
@@ -89,8 +89,8 @@ public class StaffBroker<E> {
 				staff.toString();
 				// MYSQL insert statement
 				//removed isActive in order to submit to the database - Nathan
-				stmtString = "INSERT INTO staff (sID, pin, fName, lName, contactNum, jobID) "
-						+ " VALUES (?, ?, ?, ?, ?,?)";
+				stmtString = "INSERT INTO staff (sID, pin, isActive, fName, lName, contactNum, jobName) "
+						+ " VALUES (?, ?, ?, ?, ?,?,?)";
 				//create MySQL insert preparedstatement
 				preparedStmt = con.prepareStatement(stmtString);
 				preparedStmt.setInt(1, staff.getsID());
@@ -157,7 +157,7 @@ public class StaffBroker<E> {
 	 * @throws SQLException
 	 */
 	//public List<Staff> findByIDList( String id) throws SQLException {
-	public List<E> findByIDList(int id) throws SQLException {
+	public List<Staff> findByIDList(int id) throws SQLException {
 		//connect
 		con = c2s.connect();	
 		if(con != null) {	 
@@ -169,7 +169,7 @@ public class StaffBroker<E> {
 		}
 		System.out.println("[findByIDList] get data from DB success.");
 		System.out.println("result:" + rs.toString());
-		List<E> listResultList = (List<E>) listing(rs);
+		List<Staff> listResultList = listing(rs);
 		preparedStmt.close();
 		rs.close();
 		con.close();
@@ -190,7 +190,8 @@ public class StaffBroker<E> {
 		if(isExisitng(id)) {		
 			//connect
 			con = c2s.connect();
-			if(con != null) {								stmtString = "delete from staff where sID = "+ id;
+			if(con != null) {								
+				stmtString = "delete from staff where sID = "+ id;
 				preparedStmt = con.prepareStatement(stmtString);
 				if( preparedStmt.executeUpdate() ==1) {
 					return true;				
@@ -250,7 +251,7 @@ public class StaffBroker<E> {
 					con = c2s.connect();
 					// MYSQL insert statement
 					stmtString = "update staff "
-							+ "set pin = ?, isActive = ?, fName =?, lName =?, contactNum = ?, jobID= ?"
+							+ "set pin = ?, isActive = ?, fName =?, lName =?, contactNum = ?, jobName= ?"
 							+ " where sID = ?";
 					//create MySQL insert preparedstatement
 					preparedStmt = con.prepareStatement(stmtString);
@@ -331,7 +332,7 @@ public class StaffBroker<E> {
 	 * @return list  staff data
 	 * @throws SQLException
 	 */
-	public List<E> listing( ResultSet rs) throws SQLException {
+	public List<Staff> listing(ResultSet rs) throws SQLException {
 		if(rs != null) {			
 			List<Staff> staffs = new ArrayList<Staff>();
 			while(rs.next()) {
@@ -345,6 +346,7 @@ public class StaffBroker<E> {
 				staff.setIsActive(rs.getString("isActive"));
 				staffs.add(staff);
 			}
+			return staffs;
 		}
 		return null;
 
@@ -356,7 +358,7 @@ public class StaffBroker<E> {
 	 * @throws SQLException
 	 */
 	
-		public List<E> findAll() throws SQLException {
+		public List<Staff> findAll() throws SQLException {
 			//connect
 			con = c2s.connect();	
 			if(con != null) {	 
@@ -371,7 +373,7 @@ public class StaffBroker<E> {
 //			System.out.println("[findAll] get data from DB success.");
 //			System.out.println("[findAll] get Qty of Db: " + dataQty(tableName));
 //			System.out.println("result:" + rs.toString());
-			List<E> listResultList = (List<E>) listing(rs);
+			List<Staff> listResultList = listing(rs);
 
 			preparedStmt.close();
 			rs.close();

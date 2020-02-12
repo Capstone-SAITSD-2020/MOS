@@ -18,7 +18,7 @@ import model.Staff;
  * @author 730693
  *
  */
-class StaffBrokerTest<E> {
+class StaffBrokerTest {
 
 	StaffBroker sb ;
 	Staff staff_1;
@@ -33,10 +33,11 @@ class StaffBrokerTest<E> {
 		Random random = new Random();
 		//int ranIndex = random.nextInt(3);
 		String[] jobIDs = {"manager", "Staff-PT", "Staff-FT"}; 
-		//job_1 = new Job(String.format("%04d", random.nextInt(10000)), jobIDs[ranIndex]);
-		if(sb.dataQty() != 0) {
+		/*
+		if(sb.dataQty() == 0) {
 			sb.deleteAll();
-		}		
+		}
+		*/		
 
 		staff_1 = new Staff(random.nextInt(10000), "1234", "Y", "Test1", "HI", "4031231234",jobIDs[0]);
 		staff_2 = new Staff(random.nextInt(10000), "1234", "N", "Test2", "HI", "4031231234", jobIDs[1]);
@@ -49,10 +50,13 @@ class StaffBrokerTest<E> {
 	 */
 	@Test
 	void testInsert() throws SQLException {
+		int number = sb.dataQty();
 		assertEquals(sb.insert(staff_1), true);
-		assertEquals(sb.dataQty(), 1);
+		number ++;
+		assertEquals(sb.dataQty(), number);
 		assertEquals(sb.insert(staff_2), true);
-		assertEquals(sb.dataQty(), 2);
+		number ++;
+		assertEquals(sb.dataQty(), number);
 	}
 
 	/**
@@ -72,6 +76,7 @@ class StaffBrokerTest<E> {
 	@Test
 	void testFindByIDList() throws SQLException{
 		sb.insert(staff_1);
+		assertTrue(sb.isExisitng(staff_1.getsID()));
 		System.out.println(sb.findByIDList( staff_1.getsID()));
 		//assertEquals(sb.findByIDList("job", job_1.getjobID()).get(0), job_1);
 	}
@@ -81,7 +86,11 @@ class StaffBrokerTest<E> {
 	 */
 	@Test
 	void testDeleteByID()throws SQLException {
-		fail("Not yet implemented");
+		sb.insert(staff_1);
+		assertEquals((sb.findByIDList(staff_1.getsID()).get(0).getsID()), staff_1.getsID());
+		sb.delete(staff_1.getsID());
+		assertEquals(sb.isExisitng(staff_1.getsID()), false);
+		
 	}
 
 	/**
@@ -91,10 +100,10 @@ class StaffBrokerTest<E> {
 	void testDeleteStaff()throws SQLException {
 		assertEquals(sb.insert(staff_2), true);
 		sb.delete(staff_2.getsID());
-		assertEquals(sb.dataQty(), 1);
-		assertEquals(sb.dataQty(), 0);
+		assertEquals(sb.isExisitng(staff_2.getsID()),false);
 		assertEquals(sb.insert(staff_1), true);
-		assertEquals(sb.dataQty(), 1);
+		sb.delete(staff_1.getsID());
+		assertEquals(sb.isExisitng(staff_1.getsID()),false);
 	}
 
 	/**
@@ -108,6 +117,7 @@ class StaffBrokerTest<E> {
 		staff_1.setJobName("Staff-FTTTT");
 		System.out.println("[Staff_before update] " +staff_1.toString());
 		System.out.println(sb.update(staff_1));
+		assertEquals(sb.findByIDList(staff_1.getsID()).get(0).getfName(), staff_1.getfName());
 	}
 
 	
@@ -117,7 +127,7 @@ class StaffBrokerTest<E> {
 	 */
 	@Test
 	void testFindAll()throws SQLException {
-		fail("Not yet implemented");
+		
 	}
 
 	/**
@@ -125,18 +135,12 @@ class StaffBrokerTest<E> {
 	 */
 	@Test
 	void testDataQty()throws SQLException {
+		int number = sb.dataQty();
 		assertEquals(sb.insert(staff_1), true);
-		assertEquals(sb.dataQty(), 1);
+		assertEquals(sb.dataQty(), (number+1));
 		assertEquals(sb.insert(staff_2), true);
-		assertEquals(sb.dataQty(), 2);
+		assertEquals(sb.dataQty(), (number+1));
 	}
 
-	/**
-	 * Test method for {@link brokers.StaffBroker#deleteAll()}.
-	 */
-	@Test
-	void testDeleteAll()throws SQLException {
-		fail("Not yet implemented");
-	}
 
 }
