@@ -1,7 +1,12 @@
 /build/
 
 .project
+<<<<<<< Upstream, based on origin/Mgmt_Staff_N
 
 .classpath
 
 /.dbeaver
+=======
+.classpath
+/.dbeaver
+>>>>>>> 3df6923 [test]
