@@ -55,12 +55,10 @@ public class StaffManageRest {
 	public Response addNewStaff(@FormParam("pin") String pin,
 								@FormParam("lName") String lName,
 								@FormParam("fName") String fName,
-								@FormParam("jobID") int jobID,
 								@FormParam("contactNum") String contactNum) {
 		
 		Staff staff = new Staff();
 		staff.setPin(pin);
-		staff.setJobID(jobID);
 		staff.setlName(lName);
 		staff.setfName(fName);
 		staff.setContactNum(contactNum);
@@ -126,21 +124,21 @@ public class StaffManageRest {
 	 * @return A response object containing the
 	 * 			response if the staff was deleted.
 	 */
-	@Path("staff/{id}")
-	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response removeStaff(Staff staff) {
-		boolean deleted = false;
-		StaffBroker sb = new StaffBroker();
-		try {
-			deleted = sb.delete(staff);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return Response.status(200).entity(deleted).build();
-	}
+//	@Path("staff/{id}")
+//	@DELETE
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response removeStaff(Staff staff) {
+//		boolean deleted = false;
+//		StaffBroker sb = new StaffBroker();
+//		try {
+//			deleted = sb.delete(staff);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		return Response.status(200).entity(deleted).build();
+//	}
 	
 	/**
 	 * PUT method for inserting a new staff member into the database.

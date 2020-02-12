@@ -88,8 +88,9 @@ public class StaffBroker<E> {
 			try {						
 				staff.toString();
 				// MYSQL insert statement
-				stmtString = "INSERT INTO staff (sID, pin, isActive, fName, lName, contactNum, jobID) "
-						+ " VALUES (?, ?, ?, ?, ?, ?,?)";
+				//removed isActive in order to submit to the database - Nathan
+				stmtString = "INSERT INTO staff (sID, pin, fName, lName, contactNum, jobID) "
+						+ " VALUES (?, ?, ?, ?, ?,?)";
 				//create MySQL insert preparedstatement
 				preparedStmt = con.prepareStatement(stmtString);
 				preparedStmt.setInt(1, staff.getsID());
@@ -99,6 +100,7 @@ public class StaffBroker<E> {
 				preparedStmt.setString (5, staff.getlName());
 				preparedStmt.setString (6, staff.getContactNum());
 				preparedStmt.setString(7, staff.getJobName());
+
 		      // execute the preparedstatement
 			     
 				executedResult = preparedStmt.executeUpdate();	     
@@ -188,8 +190,7 @@ public class StaffBroker<E> {
 		if(isExisitng(id)) {		
 			//connect
 			con = c2s.connect();
-			if(con != null) {				
-				stmtString = "delete from staff where sID = "+ id;
+			if(con != null) {								stmtString = "delete from staff where sID = "+ id;
 				preparedStmt = con.prepareStatement(stmtString);
 				if( preparedStmt.executeUpdate() ==1) {
 					return true;				
@@ -365,10 +366,13 @@ public class StaffBroker<E> {
 			}else {
 				System.out.println("Connecting server fail.");
 			}
-			System.out.println("[findAll] get data from DB success.");
-			System.out.println("[findAll] get Qty of Db: " + dataQty());
-			System.out.println("result:" + rs.toString());
+			//Commented out these few lines of code as they try to return another result set
+			//Which then errors and returns a 404 - Nathan
+//			System.out.println("[findAll] get data from DB success.");
+//			System.out.println("[findAll] get Qty of Db: " + dataQty(tableName));
+//			System.out.println("result:" + rs.toString());
 			List<E> listResultList = (List<E>) listing(rs);
+
 			preparedStmt.close();
 			rs.close();
 			con.close();
