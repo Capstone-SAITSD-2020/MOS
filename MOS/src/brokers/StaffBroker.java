@@ -38,6 +38,7 @@ public class StaffBroker<E> {
 	 * @return boolean , true is success. false is fail.
 	 * @throws SQLException
 	 */
+	/* [2020.02.11] for removing the job table
 	public boolean insert(Job job) throws SQLException{		
 			//connect;			
 		con = c2s.connect();
@@ -71,7 +72,7 @@ public class StaffBroker<E> {
 		}
 		return false;	
 	}
-	
+	*/
 	/**
 	 * insert data into database
 	 * @param object Staff staff
@@ -126,20 +127,16 @@ public class StaffBroker<E> {
 	 * @return boolean indicating the ID is existing in DB, or not
 	 * @throws SQLException
 	 */
-	public boolean isExisitng(String tableName, int id) throws SQLException {
+	public boolean isExisitng(int id) throws SQLException {
 		//connect
 		int result= -1;
 		con = c2s.connect();
-		if(con != null) {
-			if(tableName == "staff") {
-				stmtString = "select count(*) from staff where sID = " + id;
-			}else {
-				stmtString = "select count(*) from job where jobID = " + id;
-			}
+		if(con != null) {			
+			stmtString = "select count(*) from staff where sID = " + id;	
 			preparedStmt = con.prepareStatement(stmtString);
-			 rs = preparedStmt.executeQuery(stmtString);
-			 rs.next();
-			 result = rs.getInt(1);
+			rs = preparedStmt.executeQuery(stmtString);
+			rs.next();
+			result = rs.getInt(1);
 		}else {
 			System.out.println("Connecting server fail.");
 		}
@@ -158,13 +155,11 @@ public class StaffBroker<E> {
 	 * @throws SQLException
 	 */
 	//public List<Staff> findByIDList( String id) throws SQLException {
-	public List<E> findByIDList(String tableName, int id) throws SQLException {
+	public List<E> findByIDList(int id) throws SQLException {
 		//connect
 		con = c2s.connect();	
 		if(con != null) {	 
-			if(tableName.equals("job")) {
-				stmtString = "select * from job where jobID = " + id;
-			}else if(tableName.equals("staff")) {
+			if(tableName.equals("staff")) {
 				stmtString = "select * from staff where sID = " + id;
 			}else {
 				System.out.println("Table name cannot be null, or the table name is not existing");
@@ -194,16 +189,12 @@ public class StaffBroker<E> {
 	 * @return boolean true, the data has been deleted. False, deleting fail.
 	 * @throws SQLException
 	 */
-	public boolean delete(String tableName, int id) throws SQLException {
-		if(isExisitng(tableName, id)) {		
+	public boolean delete(int id) throws SQLException {
+		if(isExisitng(id)) {		
 			//connect
 			con = c2s.connect();
-			if(con != null) {
-				if(tableName == "staff") {
-					stmtString = "delete from staff where sID = "+ id;
-				}else {
-					stmtString = "delete from job where jobID = "+ id;
-				}
+			if(con != null) {				
+				stmtString = "delete from staff where sID = "+ id;
 				preparedStmt = con.prepareStatement(stmtString);
 				if( preparedStmt.executeUpdate() ==1) {
 					return true;				
@@ -219,13 +210,13 @@ public class StaffBroker<E> {
 		return false;
 	}
 	
-	/** common out.
+	/*
 	 * delete
 	 * 	delete data by Staff object.
 	 * @param staff Staff object, the staffID cannot be null(mandatory).
 	 * @return boolean true, the data has been deleted. False, deleting fail.
 	 * @throws SQLException
-	
+	*/
 		public boolean delete(Staff staff) throws SQLException  {
 			if(isExisitng("staff", staff.getsID())) {		
 				//connect
@@ -248,7 +239,6 @@ public class StaffBroker<E> {
 			return false;
 		}
 	
-		 */
 		/**
 		 * update
 		 * 	update staff data
@@ -304,6 +294,7 @@ public class StaffBroker<E> {
 		 * @return boolean update 
 		 * @throws SQLException
 		 */
+		/* [2020.02.11] for removing the job table
 		public boolean update(Job job) throws SQLException{
 			int result  = -1;
 			//connect
@@ -336,7 +327,7 @@ public class StaffBroker<E> {
 			}
 			
 		}	
-		
+		*/
 	/**
 	 * listing function:
 	 * 	covert the data from ResultSet into object list
@@ -344,18 +335,9 @@ public class StaffBroker<E> {
 	 * @return list  staff data
 	 * @throws SQLException
 	 */
-	public List<E> listing(String tableName, ResultSet rs) throws SQLException {
+	public List<E> listing( ResultSet rs) throws SQLException {
 		if(rs != null) {
-			if(tableName.equals("job")) {
-				List<Job> jobs = new ArrayList<Job>();
-				while(rs.next()) {
-					Job job = new Job();
-					job.setjobID(rs.getInt("jobID"));
-					job.setJobName(rs.getString("jobName"));
-					jobs.add(job);
-				}				
-				return (List<E>) jobs;
-			}else if(tableName.equals("staff")) {
+			if(tableName.equals("staff")) {
 				List<Staff> staffs = new ArrayList<Staff>();
 				while(rs.next()) {
 					Staff staff = new Staff();
@@ -381,18 +363,11 @@ public class StaffBroker<E> {
 	 * @throws SQLException
 	 */
 	
-		public List<E> findAll(String tableName) throws SQLException {
+		public List<E> findAll() throws SQLException {
 			//connect
 			con = c2s.connect();	
 			if(con != null) {	 
-				if(tableName.equals("job")) {
-					stmtString = "select * from job ";
-				}else if(tableName.equals("staff")) {
-					stmtString = "select * from staff";
-				}else {
-					System.out.println("Table name cannot be null, or the table name is not existing");
-					return null;
-				}
+				stmtString = "select * from staff";				
 				preparedStmt = con.prepareStatement(stmtString);
 				rs = preparedStmt.executeQuery();	
 			}else {
@@ -418,12 +393,12 @@ public class StaffBroker<E> {
 	 * @throws SQLException
 	 */
 	
-	public int dataQty(String tableName) throws SQLException {
+	public int dataQty() throws SQLException {
 		//connect
 		con = c2s.connect();
 		int qty = -1;
 		if(con != null) {
-			stmtString = "select count(*) from " + tableName;
+			stmtString = "select count(*) from staff" ;
 			preparedStmt = con.prepareStatement(stmtString);
 			rs = preparedStmt.executeQuery(stmtString);
 			rs.next();
@@ -441,13 +416,13 @@ public class StaffBroker<E> {
 	 * @return executedResult int the number of DB has been deleted  
 	 * @throws SQLException
 	 */
-	public int deleteAll(String tableName) throws SQLException {
+	public int deleteAll() throws SQLException {
 		//connect
 		con = c2s.connect();
 		int executedResult = -1;		
 		if(con != null) {			
 	           // System.out.println("cleaning data....."+ tableName);
-	            stmtString = "delete from " + tableName ;
+	            stmtString = "delete from staff" ;
 				preparedStmt = con.prepareStatement(stmtString);
 				executedResult = preparedStmt.executeUpdate();				
 		}		
