@@ -9,6 +9,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="js/StaffListScreen.js" type="text/javascript"></script>
+<script src="js/StaffAddScreen.js" type="text/javascript"></script>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/custom.css">
 <title>Migarock Management</title>
@@ -62,7 +64,7 @@
             <div class="col-md-3">
                 <div class="list-group">
                     <a href="StaffMgmtUI.jsp" class="list-group-item active">Staff Summary</a>
-                    <a href="AddStaffUI.jsp" class="list-group-item ">Add New Staff</a>
+                    <a href="addStaff.jsp" class="list-group-item ">Add New Staff</a>
                 </div>   
             </div>
             <div class="col-md-9">
@@ -70,16 +72,18 @@
                     <a href="#" class="list-group-item active">Current Staff</a>
                     <div class="list-group-item">
                         <div class="list-group">
-                            <table class="table">
+                            <table class="table" id="staffListTable">
                                 <tbody>
                                 <tr>
                                     <th class="mobile" style="width: 100px; text-align: center">Job Title</th>
                                     <th>ID</th>
                                     <th class="mobile" style="width: 130px; text-align: center">Name</th>
                                     <th class="mobile" style="width: 150px; text-align: center">Phone</th>
-                                    <th class="mobile" style="width: 150px; text-align: center">Options</th>
-                                    <tr>
-                                    <td >PT Server</td>
+                                    
+                                    <!-- Commented out this data to test with data coming from database - Nathan -->
+                                    <!-- <th class="mobile" style="width: 150px; text-align: center">Options</th>-->
+                                    <!-- <tr>
+                                    <td>PT Server</td>
                                     <td>9999</td>
                                     <td>Chris Lumsden</td>
                                     <td>4039992846</td>
@@ -95,11 +99,12 @@
 										</button>
                                     </td>
                                     </tr>
+                                    -->
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                </div>                
+                    </div>                
             </div>
         </div>
     </div>
