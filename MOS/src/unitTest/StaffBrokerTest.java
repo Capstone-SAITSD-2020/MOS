@@ -20,7 +20,7 @@ import model.Staff;
  */
 class StaffBrokerTest<E> {
 
-	StaffBroker<E> sb ;
+	StaffBroker sb ;
 	Staff staff_1;
 	Staff staff_2;
 	Staff staff_3;
@@ -29,7 +29,7 @@ class StaffBrokerTest<E> {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		sb = new StaffBroker<E>();
+		sb = new StaffBroker();
 		Random random = new Random();
 		//int ranIndex = random.nextInt(3);
 		String[] jobIDs = {"manager", "Staff-PT", "Staff-FT"}; 
