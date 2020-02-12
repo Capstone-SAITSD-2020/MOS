@@ -42,11 +42,15 @@
     </div>
 
 </header>
-<!--Light grey header-->
+<!--Light grey header for bread crumbs-->
 <div class="container">
-    <ol class="breadcrumb">
-        <li class="active">Add a new Staff Member</li>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb blue-grey lighten-4">
+      <li class="breadcrumb-item"><a class="black-text" href="StaffMgmtUI.jsp">Staff Summary</a><i
+          class="fas fa-angle-double-right mx-2" aria-hidden="true"></i></li>
+      <li class="breadcrumb-item active"><a class="black-text">Add New Staff</a>
     </ol>
+  </nav>
 </div>
 <!--The form to be filled out for adding a new staff to the DB-->
 <!--All fields are required to be filled in, PIN is like the password to access the staff side of the application-->

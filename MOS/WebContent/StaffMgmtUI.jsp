@@ -9,6 +9,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/custom.css">
 <title>Migarock Management</title>
 </head>
 <body>
@@ -40,20 +42,17 @@
                 </h4>
             </div>
             <div class="col-sm-3 info">
-
             </div>
-
         </div>
-
     </div>
-
 </header>
 <!--Light grey header-->
 <div class="container">
-    <ol class="breadcrumb">
-        <li class="active">Staff Summary</li>
-
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb blue-grey lighten-4">
+      <li class="breadcrumb-item active"><a class="black-text">Staff Summary</a>
     </ol>
+  </nav>
 </div>
 <!-- This screen contains Staff that are currently listed in the DB -->
 <!-- Each Line is a Staff object, should include "edit" and "delete" buttons on each line -->
@@ -96,19 +95,13 @@
 										</button>
                                     </td>
                                     </tr>
-                                </tr>
                                 </tbody>
-
                             </table>
-
                         </div>
                     </div>
-                </div>
-                
+                </div>                
             </div>
-
         </div>
-
     </div>
 </section>
 <!-- Pop up Modals -->
@@ -121,7 +114,6 @@
                 <h5 class="modal-title">Edit Staff Info</h5>
                 <button type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
-
                 </button>
             </div>
             <div class="modal-body">
@@ -153,7 +145,6 @@
                 </form>
             </div>
         </div>
-
     </div>
 </div>
 <!-- This is the delete popup this modal asks to confirm they want to remove the selected Staff object -->
@@ -203,8 +194,7 @@
 <div class="modal fade" id="failModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        
+      <div class="modal-header">   
         <h4 class="modal-title" id="myModalLabel">Whoops!</h4>
       </div>
       <div class="modal-body">
