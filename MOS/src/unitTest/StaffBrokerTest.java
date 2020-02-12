@@ -6,14 +6,12 @@ package unitTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Random;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import brokers.StaffBroker;
-import model.Job;
 import model.Staff;
 
 /**
@@ -23,13 +21,9 @@ import model.Staff;
 class StaffBrokerTest<E> {
 
 	StaffBroker<E> sb ;
-	Job job_1 ;
-	Job job_2 ;
-	Job job_3 ;	
 	Staff staff_1;
 	Staff staff_2;
 	Staff staff_3;
-	
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -40,32 +34,13 @@ class StaffBrokerTest<E> {
 		//int ranIndex = random.nextInt(3);
 		String[] jobIDs = {"manager", "Staff-PT", "Staff-FT"}; 
 		//job_1 = new Job(String.format("%04d", random.nextInt(10000)), jobIDs[ranIndex]);
-		if(sb.dataQty("staff") != 0) {
-			sb.deleteAll("staff");
-		}
-		
-		if(sb.dataQty("job") != 0) {
-			sb.deleteAll("job");
-		}
+		if(sb.dataQty() != 0) {
+			sb.deleteAll();
+		}		
 
-		job_1 = new Job(1, jobIDs[0]);
-		job_2 = new Job(2, jobIDs[1]);
-		job_3 = new Job(3, jobIDs[2]);
-		staff_1 = new Staff(random.nextInt(10000), "1234", "Y", "Test1", "HI", "4031231234",job_1.getjobID());
-		staff_2 = new Staff(random.nextInt(10000), "1234", "N", "Test2", "HI", "4031231234", job_2.getjobID());
-		staff_3 = new Staff(random.nextInt(10000), "1234", "Y", "Test1", "HI", "4031231234", job_3.getjobID());
-		
-	}
-
-	/**
-	 * Test method for {@link brokers.StaffBroker#insert(model.Job)}.
-	 * @throws SQLException 
-	 */
-	@Test
-	void testInsertJob() throws SQLException {
-			assertTrue(sb.insert(job_1));
-			assertTrue(sb.insert(job_2));
-			assertEquals(sb.dataQty("job"), 2);
+		staff_1 = new Staff(random.nextInt(10000), "1234", "Y", "Test1", "HI", "4031231234",jobIDs[0]);
+		staff_2 = new Staff(random.nextInt(10000), "1234", "N", "Test2", "HI", "4031231234", jobIDs[1]);
+		staff_3 = new Staff(random.nextInt(10000), "1234", "Y", "Test1", "HI", "4031231234", jobIDs[2]);
 	}
 
 	/**
@@ -73,108 +48,95 @@ class StaffBrokerTest<E> {
 	 * @throws SQLException 
 	 */
 	@Test
-	void testInsertStaff() throws SQLException {
-		//staff_1.setJobID(job_1.getjobID());
-		sb.insert(job_1);
+	void testInsert() throws SQLException {
 		assertEquals(sb.insert(staff_1), true);
-		assertEquals(sb.dataQty("staff"), 1);
-		staff_2.setJobID(job_1.getjobID());
+		assertEquals(sb.dataQty(), 1);
 		assertEquals(sb.insert(staff_2), true);
-		assertEquals(sb.dataQty("staff"), 2);
+		assertEquals(sb.dataQty(), 2);
 	}
 
 	/**
-	 * Test method for {@link brokers.StaffBroker#isExisitng(java.lang.String, java.lang.String)}.
+	 * Test method for {@link brokers.StaffBroker#isExisitng(int)}.
 	 * @throws SQLException 
 	 */
 	@Test
 	void testIsExisitng() throws SQLException {
-		sb.insert(job_1);
 		sb.insert(staff_1);
-		assertTrue(sb.isExisitng("job", job_1.getjobID()));
-		assertTrue(sb.isExisitng("staff", staff_1.getsID()));
-		assertEquals(sb.isExisitng("job", job_2.getjobID()), false);
-		assertEquals(sb.isExisitng("staff", staff_2.getsID()),false);
+		assertTrue(sb.isExisitng(staff_1.getsID()));
+		assertEquals(sb.isExisitng(staff_2.getsID()),false);
 	}
 
 	/**
-	 * Test method for {@link brokers.StaffBroker#finddyIDList(java.lang.String, java.lang.String)}.
-	 * @throws SQLException 
+	 * Test method for {@link brokers.StaffBroker#findByIDList(int)}.
 	 */
 	@Test
-	void testFinddyIDList() throws SQLException {
-		sb.insert(job_1);
+	void testFindByIDList() throws SQLException{
 		sb.insert(staff_1);
-		System.out.println(sb.findByIDList("job", job_1.getjobID()));
-		System.out.println(sb.findByIDList("staff", staff_1.getsID()));
+		System.out.println(sb.findByIDList( staff_1.getsID()));
 		//assertEquals(sb.findByIDList("job", job_1.getjobID()).get(0), job_1);
 	}
 
+	/**
+	 * Test method for {@link brokers.StaffBroker#delete(int)}.
+	 */
+	@Test
+	void testDeleteByID()throws SQLException {
+		fail("Not yet implemented");
+	}
 
 	/**
 	 * Test method for {@link brokers.StaffBroker#delete(model.Staff)}.
-	 * @throws SQLException 
 	 */
 	@Test
-	void testDeleteStaff() throws SQLException {
-		assertEquals(sb.insert(job_2), true);
+	void testDeleteStaff()throws SQLException {
 		assertEquals(sb.insert(staff_2), true);
-		sb.delete("staff", staff_2.getsID());
-		assertEquals(sb.dataQty("job"), 1);
-		assertEquals(sb.dataQty("staff"), 0);
-		assertEquals(sb.insert(job_3), true);
-		assertEquals(sb.insert(staff_3), true);
-		assertEquals(sb.dataQty("job"), 2);
-		assertEquals(sb.dataQty("staff"), 1);
+		sb.delete(staff_2.getsID());
+		assertEquals(sb.dataQty(), 1);
+		assertEquals(sb.dataQty(), 0);
+		assertEquals(sb.insert(staff_1), true);
+		assertEquals(sb.dataQty(), 1);
 	}
 
 	/**
 	 * Test method for {@link brokers.StaffBroker#update(model.Staff)}.
-	 * @throws SQLException 
 	 */
 	@Test
-	void testUpdateStaff() throws SQLException {
-		assertEquals(sb.insert(job_1), true);
-		assertEquals(sb.insert(job_2), true);
+	void testUpdate()throws SQLException {
 		assertEquals(sb.insert(staff_1), true);
 		assertEquals(sb.insert(staff_2), true);
 		staff_1.setfName("update test");
-		staff_1.setJobID(job_2.getjobID());
+		staff_1.setJobName("Staff-FTTTT");
 		System.out.println("[Staff_before update] " +staff_1.toString());
 		System.out.println(sb.update(staff_1));
-	
-	}
-
-	/**
-	 * Test method for {@link brokers.StaffBroker#update(model.Job)}.
-	 * @throws SQLException 
-	 */
-	@Test
-	void testUpdateJob() throws SQLException {
-		assertEquals(sb.insert(job_1), true);
-		assertEquals(sb.insert(job_2), true);		
-		job_2.setJobName("Fucking job position.");
-		System.out.println("[job]" + job_2.getJobName());
-		assertEquals(sb.update(job_2),true);
-		Job updatedJob = (Job) sb.findByIDList("job", job_2.getjobID()).get(0);
-		assertEquals(updatedJob.getJobName(), job_2.getJobName());
-		
 	}
 
 	
+
 	/**
-	 * Test method for {@link brokers.StaffBroker#dataQty(java.lang.String)}.
-	 * @throws SQLException 
+	 * Test method for {@link brokers.StaffBroker#findAll()}.
 	 */
 	@Test
-	void testDataQty() throws SQLException {
-		assertEquals(sb.insert(job_1), true);
-		assertEquals(sb.insert(job_2), true);
+	void testFindAll()throws SQLException {
+		fail("Not yet implemented");
+	}
+
+	/**
+	 * Test method for {@link brokers.StaffBroker#dataQty()}.
+	 */
+	@Test
+	void testDataQty()throws SQLException {
 		assertEquals(sb.insert(staff_1), true);
-		assertEquals(sb.dataQty("staff"), 1);
-		staff_2.setJobID(job_1.getjobID());
+		assertEquals(sb.dataQty(), 1);
 		assertEquals(sb.insert(staff_2), true);
-		assertEquals(sb.dataQty("staff"), 2);
+		assertEquals(sb.dataQty(), 2);
+	}
+
+	/**
+	 * Test method for {@link brokers.StaffBroker#deleteAll()}.
+	 */
+	@Test
+	void testDeleteAll()throws SQLException {
+		fail("Not yet implemented");
 	}
 
 }

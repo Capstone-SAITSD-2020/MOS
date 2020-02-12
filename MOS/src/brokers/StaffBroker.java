@@ -98,7 +98,7 @@ public class StaffBroker<E> {
 				preparedStmt.setString (4, staff.getfName());
 				preparedStmt.setString (5, staff.getlName());
 				preparedStmt.setString (6, staff.getContactNum());
-				preparedStmt.setInt (7, staff.getJobID());
+				preparedStmt.setString(7, staff.getJobName());
 		      // execute the preparedstatement
 			     
 				executedResult = preparedStmt.executeUpdate();	     
@@ -159,12 +159,7 @@ public class StaffBroker<E> {
 		//connect
 		con = c2s.connect();	
 		if(con != null) {	 
-			if(tableName.equals("staff")) {
-				stmtString = "select * from staff where sID = " + id;
-			}else {
-				System.out.println("Table name cannot be null, or the table name is not existing");
-				return null;
-			}
+			stmtString = "select * from staff where sID = " + id;
 			preparedStmt = con.prepareStatement(stmtString);
 			rs = preparedStmt.executeQuery();	
 		}else {
@@ -172,7 +167,7 @@ public class StaffBroker<E> {
 		}
 		System.out.println("[findByIDList] get data from DB success.");
 		System.out.println("result:" + rs.toString());
-		List<E> listResultList = (List<E>) listing(tableName, rs);
+		List<E> listResultList = (List<E>) listing(rs);
 		preparedStmt.close();
 		rs.close();
 		con.close();
@@ -218,7 +213,7 @@ public class StaffBroker<E> {
 	 * @throws SQLException
 	*/
 		public boolean delete(Staff staff) throws SQLException  {
-			if(isExisitng("staff", staff.getsID())) {		
+			if(isExisitng(staff.getsID())) {		
 				//connect
 				con = c2s.connect();
 				if(con != null) {
@@ -249,7 +244,7 @@ public class StaffBroker<E> {
 		public boolean update(Staff staff) throws SQLException{
 			int result = -1;
 			System.out.println("[Staff]"+staff.toString());			
-			if(isExisitng("staff", staff.getsID())) {
+			if(isExisitng(staff.getsID())) {
 				try {		
 					con = c2s.connect();
 					// MYSQL insert statement
@@ -263,7 +258,7 @@ public class StaffBroker<E> {
 					preparedStmt.setString (3, staff.getfName());
 					preparedStmt.setString (4, staff.getlName());
 					preparedStmt.setString (5, staff.getContactNum());
-					preparedStmt.setInt (6, staff.getJobID());
+					preparedStmt.setString(6, staff.getJobName());
 					preparedStmt.setInt(7, staff.getsID());
 					
 			      // execute the preparedstatement
@@ -336,21 +331,18 @@ public class StaffBroker<E> {
 	 * @throws SQLException
 	 */
 	public List<E> listing( ResultSet rs) throws SQLException {
-		if(rs != null) {
-			if(tableName.equals("staff")) {
-				List<Staff> staffs = new ArrayList<Staff>();
-				while(rs.next()) {
-					Staff staff = new Staff();
-					staff.setsID(rs.getInt("sID"));
-					staff.setfName(rs.getString("fName"));
-					staff.setlName(rs.getString("lName"));
-					staff.setPin(rs.getString("pin"));
-					staff.setContactNum(rs.getString("contactNum"));
-					staff.setJobID(rs.getInt("jobID"));
-					staff.setIsActive(rs.getString("isActive"));
-					staffs.add(staff);
-				}
-				return (List<E>) staffs;
+		if(rs != null) {			
+			List<Staff> staffs = new ArrayList<Staff>();
+			while(rs.next()) {
+				Staff staff = new Staff();
+				staff.setsID(rs.getInt("sID"));
+				staff.setfName(rs.getString("fName"));
+				staff.setlName(rs.getString("lName"));
+				staff.setPin(rs.getString("pin"));
+				staff.setContactNum(rs.getString("contactNum"));
+				staff.setJobName(rs.getString("jobName"));
+				staff.setIsActive(rs.getString("isActive"));
+				staffs.add(staff);
 			}
 		}
 		return null;
@@ -374,9 +366,9 @@ public class StaffBroker<E> {
 				System.out.println("Connecting server fail.");
 			}
 			System.out.println("[findAll] get data from DB success.");
-			System.out.println("[findAll] get Qty of Db: " + dataQty(tableName));
+			System.out.println("[findAll] get Qty of Db: " + dataQty());
 			System.out.println("result:" + rs.toString());
-			List<E> listResultList = (List<E>) listing(tableName, rs);
+			List<E> listResultList = (List<E>) listing(rs);
 			preparedStmt.close();
 			rs.close();
 			con.close();

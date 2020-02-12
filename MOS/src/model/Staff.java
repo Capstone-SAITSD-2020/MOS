@@ -8,13 +8,13 @@ public class Staff {
 	private String fName;
 	private String lName;
 	private String contactNum;
-	private int jobID;
+	private String jobName;
 
 	public Staff() {
 		super();
 	}
 
-	public Staff(int sID, String pin, String isActive, String fName, String lName, String contactNum, int jobID) {
+	public Staff(int sID, String pin, String isActive, String fName, String lName, String contactNum, String jobName) {
 		super();
 		this.sID = sID;
 		this.pin = pin;
@@ -22,7 +22,7 @@ public class Staff {
 		this.fName = fName;
 		this.lName = lName;
 		this.contactNum = contactNum;
-		this.jobID = jobID;
+		this.jobName = jobName;
 	}
 
 	public int getsID() {
@@ -57,12 +57,12 @@ public class Staff {
 		this.pin = pin;
 	}
 
-	public int getJobID() {
-		return jobID;
+	public String getJobName() {
+		return jobName;
 	}
 
-	public void setJobID(int jobID) {
-		this.jobID = jobID;
+	public void setJobName(String jobName) {
+		this.jobName = jobName;
 	}
 
 	public String getContactNum() {
@@ -84,7 +84,7 @@ public class Staff {
 	@Override
 	public String toString() {
 		return "Staff [sID=" + sID + ", pin=" + pin + ", isActive=" + isActive + ", fName=" + fName + ", lName=" + lName
-				+ ", contactNum=" + contactNum + ", jobID=" + jobID + "]";
+				+ ", contactNum=" + contactNum + ", jobName=" + jobName + "]";
 	}
 
 
