@@ -64,7 +64,7 @@
             <div class="col-md-3">
                 <div class="list-group">
                     <a href="StaffMgmtUI.jsp" class="list-group-item active">Staff Summary</a>
-                    <a href="addStaff.jsp" class="list-group-item ">Add New Staff</a>
+                    <a href="AddStaffUI.jsp" class="list-group-item ">Add New Staff</a>
                 </div>   
             </div>
             <div class="col-md-9">
@@ -104,7 +104,8 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>                
+                    </div>
+                 </div>                
             </div>
         </div>
     </div>
